@@ -1,0 +1,93 @@
+  <form onSubmit={handleSubmit(onSubmit)} className="p-4 rounded-lg flex-grow-1">
+          <h1 className="text-center text-lg text-blue-950 ">Add Products</h1>
+       <InputField 
+       type="text"
+       label="Title"
+       name="title"
+       register={register}
+       errors={errors}
+       Errormessgage="Name is required"
+       />
+
+          <div className="mb-4">
+            <label className="text-blue-800 block mb-2">Price</label>
+            <input
+              type="number"
+              onFocus={handleFocus}
+              {...register("price", { required: true })}
+              className={`border ${
+                isFocused ? "border-blue-500" : "border-black"
+              } border-gray-300 rounded-md p-1 w-full`}
+            />
+            {errors.price && (
+              <span className="text-red-500">Price is required</span>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label className="text-blue-800 block mb-2">Description</label>
+            <Controller
+              control={control}
+              name="description"
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <ReactQuill
+                  value={field.value}
+                  onChange={field.onChange}
+                  className="bg-white border-gray-300 rounded-md p-1"
+                />
+              )}
+            />
+            {errors.description && (
+              <span className="text-red-500">Description is required</span>
+            )}
+          </div>
+
+          <input
+            type="file"
+            id="image"
+            name="image"
+            onChange={(e) => handleImageUpload(e.target.files)}
+            className=" border-gray-300 rounded-md p-1 w-full"
+          />
+            <CustomAside title={'Preview Pictuer'} children={imagePreview && (
+            <img src={imagePreview} alt="Preview" className="mt-2 h-32" />
+          )} />
+        
+
+          <div className="mb-4">
+            <label className="text-blue-800 block mb-2 ">Category</label>
+            <select
+              {...register("category", { required: true })}
+              className="border  rounded-md p-1 w-full"
+            >
+              <option value=""></option>
+              <option value="food">Food</option>
+              <option value="cloth">Cloth</option>
+              <option value="electronics">Electronics</option>
+            </select>
+            {errors.category && (
+              <span className="text-red-500">Category is required</span>
+            )}
+          </div>
+          {isSubmitted && (
+            <div className="text-white-500 mb-4 bg-green-600 rounded-md">
+             <SuccessMessage message="Submitted successfully"/>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="bg-orange-500 text-white px-4 py-2 rounded-md mr-2"
+          >
+            Create
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
+            Reset
+          </button>
+        </form>
