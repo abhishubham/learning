@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { QueryClient, QueryClientProvider } from "react-query";
+import ProductPage from "./createProducts/ProductPage";
+import ProductListPage from "./ProductListing/ProductListPage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./Layout";
 
 function App() {
+  const root = "/";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      <div className="border-spacing-5">
+        <QueryClientProvider client={new QueryClient()}>
+          <BrowserRouter>
+            <Routes>
+              <Route path={root} element={<Layout />}>
+                <Route path="products" element={<ProductPage />} />
+                <Route path="productlist" element={<ProductListPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </div>
     </div>
   );
 }
